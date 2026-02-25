@@ -1,0 +1,31 @@
+# dbt-generated directories
+target/
+dbt_packages/
+logs/
+
+# various log file formats
+*.log
+
+# dbt Cloud specific files
+dbt_profile.yml
+profiles.yml
+
+# other temporary files or directories
+.dbt/
+.run/
+.audit/
+.venv/
+
+# Local .terraform directory and state files
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# Secrets and configuration
+*.tfvars
+*.tfvars.json
+.terraformrc
+
+# Logs and overrides
+crash.log
+override.tf
