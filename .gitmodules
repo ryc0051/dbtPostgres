@@ -1,0 +1,3 @@
+[submodule "jaffle-shop-classic"]
+	path = jaffle-shop-classic
+	url = https://github.com/dbt-labs/jaffle-shop-classic

@@ -7,6 +7,12 @@ terraform {
   }
 }
 
+data "azurerm_client_config" "current" {}
+
+data "azuread_user" "adlogin" {
+  object_id = data.azurerm_client_config.current.object_id
+}
+
 resource "azurerm_postgresql_flexible_server" "postgresql" {
   name                         = lower(("ry-${var.location}-${var.environment}-postgresql"))
   resource_group_name          = var.resource_group_name
@@ -35,3 +41,20 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "dbt" {
   start_ip_address = each.value
   end_ip_address   = each.value
 }
+
+resource "azurerm_postgresql_flexible_server_database" "dbt" {
+  name = "dbt"
+  server_id = azurerm_postgresql_flexible_server.postgresql.id
+  collation = "C"
+  charset = "UTF8"
+}
+
+resource "azurerm_postgresql_flexible_server_active_directory_administrator" "example" {
+  server_name         = azurerm_postgresql_flexible_server.postgresql.name
+  resource_group_name = var.resource_group_name
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  object_id           = data.azuread_user.adlogin.object_id
+  principal_name      = data.azuread_user.adlogin.display_name
+  principal_type      = "User"
+}
+

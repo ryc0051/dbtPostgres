@@ -13,4 +13,5 @@ module "platform" {
   location                     = "newzealandnorth"
   environment                  =  "dev"
   admin_username              = "postgres"
+  admin_password = "lasso"
 }
